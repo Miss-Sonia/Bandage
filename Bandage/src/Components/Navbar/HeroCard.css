@@ -1,0 +1,28 @@
+.product-card {
+    position: relative;
+  }
+  
+  .product-card img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .product-info {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+  }
+  
+  .product-info span {
+    color: green;
+  }
+  
+  .product-info h2 {
+    margin: 5px 0;
+  }
+  
+  .product-info a {
+     color:blue;
+  }

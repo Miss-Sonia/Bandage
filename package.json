@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "react-router-dom": "^6.23.1"
+  },
+  "dependencies": {
+    "@babel/core": "^7.24.6",
+    "@reduxjs/toolkit": "^2.2.5",
+    "react-redux": "^9.1.2",
+    "redux": "^5.0.1"
+  }
+}
