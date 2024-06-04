@@ -5,9 +5,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home/Home';
 import Shop from './Pages/Shop';
 // import Product from './Components/ProductP';
-import Cart from './Pages/Cart';
+// import Cart from './Components/Cart';
 import ProductP from './Components/ProductP';
 import LandingPage from './Components/Navbar/LandingPage';
+import Cart from './Components/Cart';
 
 function App() {
   return (
@@ -18,8 +19,9 @@ function App() {
         <Route path="/Home" element={<Home />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/Shop" element={<Shop />} />
-        <Route path="/ProductP" element={<ProductP />} />
+        <Route path="/ProductP/:id" element={<ProductP />} />
         <Route path="/Cart" element={<Cart />} />
+       
       </Routes>
       </BrowserRouter>
     

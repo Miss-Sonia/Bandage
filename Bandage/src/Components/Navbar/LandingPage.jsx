@@ -202,7 +202,7 @@ const LandingPage = () => {
             data.products &&
             data.products.slice(0, visibleProducts).map((product) => (
               <li className="product-item" key={product.id}>
-                <NavLink to={`/product/${product.id}`} className="product-link">
+                <NavLink to={`/ProductP/${product.id}`} className="product-link">
                   <img
                     className="section-images"
                     src={product.images[0]}

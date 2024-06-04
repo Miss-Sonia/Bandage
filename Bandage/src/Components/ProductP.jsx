@@ -1,4 +1,10 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useGetPostsQuery } from '../Slices/apiSlice';
+import { addToCart } from '../Slices/appSlice';
+import { selectCartProduct, selectItems, selectQuantities } from '../Slices/reselect';
 import './Product.css';
 import { Link } from 'react-router-dom';
 import ShoppingCart from './Assets/ShoppingCart.png';
@@ -14,6 +20,9 @@ import Twitter from './Assets/Btwitter.png';
 import Arrow from './Assets/icn arrow-right icn-xs (1).png';
 import Cafe from './Assets/unsplash_QANOF9iJlFs.png';
 import link from './Assets/link.png';
+import star1 from "./Assets/stars (1).png";
+import chevronleft from "./Assets/ChevronLeft.png";
+import chevronright from "./Assets/ChevronRight.png";
 import Brand1 from './Assets/col-md-2.png';
 import Brand2 from './Assets/col-md-2 (1).png';
 import Brand3 from './Assets/col-md-2 (2).png';
@@ -23,7 +32,8 @@ import Brand6 from './Assets/col-md-2 (5).png';
 import twitter from './Assets/stwitter.png';
 import facebook from './Assets/sfacebook.png';
 import instagram from './Assets/ant-design_instagram-outlined.png';
-
+import basket from './/Assets/basket.png'
+import more from './/Assets/more.png'
 
 
 // import None from './Assets/@none.png';
@@ -32,6 +42,40 @@ import instagram from './Assets/ant-design_instagram-outlined.png';
 // import instagram from '../Assets/ant-design_instagram-outlined.png';
 
 const ProductP = () => {
+
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { data, error, isLoading } = useGetPostsQuery();
+  const [product, setProduct] = useState(null);
+  const [imageIndex, setImageIndex] = useState(0);
+  // const Cart = useSelector(selectCartProduct);
+  // const items = useSelector(selectItems);
+  // const quantities = useSelector(selectQuantities);
+
+  useEffect(() => {
+    if (data) {
+      const product = data.products.find((product) => product.id == id);
+      setProduct(product);
+    }
+  }, [data, id]);
+
+  const handlePrevImage = () => {
+    setImageIndex((prevIndex) =>
+      prevIndex === 0 ? product.images.length - 1 : prevIndex - 1
+    );
+  };
+
+  const handleNextImage = () => {
+    setImageIndex((prevIndex) =>
+      prevIndex === product.images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const handleSelectOptions = () => {
+    dispatch(addToCart(product)); 
+    navigate('/Cart');
+  };
   return (
     <div>
 
@@ -76,8 +120,10 @@ const ProductP = () => {
               <img src={Profile} />
               <button>Login/Register</button>
             </div>
+            <div>
             <Link to="/Home"><img src={Search} /></Link>
             <Link to="/Cart"><img src={ShoppingCart} /></Link>
+            </div>
             <img src={Like} />
             <div className="nav-cart-count">1</div>
 
@@ -98,7 +144,59 @@ const ProductP = () => {
         </div>
       </div>
 
-      <div></div>
+      <div className="carousel">
+        {product && (
+          <li className="carousel-product-item">
+          <div>
+            <button id="chevronleft" onClick={handlePrevImage}>
+              <img src={chevronleft} alt="Previous" />
+            </button>
+            <img
+              className="carousel-section-images"
+              src={product.images[imageIndex]}
+              alt={product.title}
+            />
+            <button id="chevronright" onClick={handleNextImage}>
+              <img src={chevronright} alt="Next" />
+            </button>
+          </div>
+          <div className="carousel-product-item-2">
+            <h5>{product.title}</h5>
+            <p className="product-category">{product.category}</p>
+            <div id="star-review">
+              <img src={star1} alt="Stars" />
+              <span>{product.rating} Reviews</span>
+            </div>
+            <div id="product-amount">
+              <p id="carousel-product-price">
+                <span id="carousel-product-price-1">${product.price}</span>
+                <span id="carousel-product-price-2">
+                  Availability : {product.stock} <span>In Stock</span>
+                </span>
+              </p>
+            </div>
+            <div className="product-checkbox">
+              <button className="checkbox"></button>
+              <button className="checkbox-1"></button>
+              <button className="checkbox-2"></button>
+              <button className="checkbox-3"></button>
+            </div>
+            <button className="carousel-BTN" onClick={handleSelectOptions}>
+              Select Options
+            </button>
+            <button className="LBM">
+              <img src={Like} alt="Like" />
+            </button>
+            <button className="LBM">
+              <img src={basket} alt="Basket" />
+            </button>
+            <button className="LBM">
+              <img src={more} alt="More" />
+            </button>
+          </div>
+        </li>
+        )}
+      </div>
 
       <div className="product-discription-2">
         <ul>
@@ -142,6 +240,33 @@ const ProductP = () => {
               <img src={Cafe} alt="" />
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="BESTSELLER-PRODUCTS">
+        <div className="BESTSELLER-PRODUCT-1">
+          <h3>BESTSELLER PRODUCTS</h3>
+          {isLoading && <p>Loading...</p>}
+          {error && <p>Error loading products</p>}
+          {data && (
+            <div className="product-products-grid">
+              {data.products.slice(0, 8).map((product) => (
+                <div key={product.id} className="product-product-item">
+                  <img
+                    className="product-section-images"
+                    src={product.images[0]}
+                    alt={product.title}
+                  />
+                  <h5>{product.title}</h5>
+                  <p id="product-product-category">{product.category}</p>
+                  <div id="product-product-amount">
+                    <p id="product-product-price">${product.price}</p>
+                    <p id="product-discount">{product.discountPercentage}%</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

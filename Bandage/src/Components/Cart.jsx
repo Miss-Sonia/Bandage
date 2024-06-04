@@ -6,26 +6,26 @@ import { useGetPostsQuery } from "../Slices/apiSlice";
 import { removeFromCart, increment, decrement } from "../Slices/appSlice";
 import './Cart.css';
 import { Link } from 'react-router-dom';
-import ShoppingCart from '../Components/Assets/ShoppingCart.png';
-import Profile from '../Components/Assets/Profile.png';
-import Search from '../Components/Assets/Search.png';
-import Like from '../Components/Assets/Like.png';
-import Call from '../Components/Assets/Call.png';
-import Email from '../Components/Assets/Email.png';
-import Instagram from '../Components/Assets/Binstagram.png';
-import Facebook from '../Components/Assets/Bfacebook.png';
-import Youtube from '../Components/Assets/Byoutube.png';
-import Twitter from '../Components/Assets/Btwitter.png';
-import Arrow from '../Components/Assets/icn arrow-right icn-xs (1).png';
-import delete1 from "../Components/Assets/mdi_delete-outline.png";
-import star1 from "../Components/Assets/stars (1).png";
-import plus from "../Components/Assets/+.png";
+import ShoppingCart from './Assets/ShoppingCart.png';
+import Profile from './Assets/Profile.png';
+import Search from './Assets/Search.png';
+import Like from './Assets/Like.png';
+import Call from './Assets/Call.png';
+import Email from './Assets/Email.png';
+import Instagram from './Assets/Binstagram.png';
+import Facebook from './Assets/Bfacebook.png';
+import Youtube from './Assets/Byoutube.png';
+import Twitter from './Assets/Btwitter.png';
+import Arrow from './Assets/icn arrow-right icn-xs (1).png';
+import delete1 from "./Assets/mdi_delete-outline.png";
+import star1 from "./Assets/stars (1).png";
+import plus from "./Assets/+.png";
 
 const Cart = () => {
 
     const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart.items);
-  const quantities = useSelector((state) => state.cart.quantities);
+  const cart = useSelector((state) => state?.cart?.items);
+  const quantities = useSelector((state) => state?.cart?.quantities);
   const { data: products, error, isLoading } = useGetPostsQuery();
 
   useEffect(() => {
@@ -43,6 +43,10 @@ const Cart = () => {
   const handleDecreaseQuantity = (itemId) => {
     dispatch(decrement(itemId));
   };
+
+  
+
+
 
 
   return (
@@ -129,19 +133,19 @@ const Cart = () => {
           <div className="cards-container">
             <div className="cart-item-product">
               <div className="cart-items">
-                {cart.length > 0 ? (
+                {cart?.length > 0 ? (
                   cart.map((item, index) => (
                     <div key={index} className="cart-item">
                       <div>
-                        {item.images && item.images.length > 1 ? (
-                          <img src={item.images[1]} alt={item.title} />
+                        {item?.images && item?.images.length > 1 ? (
+                          <img src={item?.images[1]} alt={item?.title} />
                         ) : (
                           <img src="default_image.png" alt="default" />
                         )}
                         <div>
                           <button
                             className="remove-item"
-                            onClick={() => handleRemoveImage(item.images)}
+                            onClick={() => handleRemoveImage(item?.images)}
                           >
                             <img src={delete1} alt="" />
                             <span> REMOVE</span>
@@ -149,37 +153,37 @@ const Cart = () => {
                         </div>
                       </div>
                       <div className="item-details">
-                        <h5>{item.title}</h5>
+                        <h5>{item?.title}</h5>
                         <p id="stock">
-                          {item.stock} <span>In Stock</span>{" "}
+                          {item?.stock} <span>In Stock</span>{" "}
                         </p>
                         <p id="rating-cart">
                           <img src={star1} alt="" />
-                          <span> {item.rating} Reviews</span>
+                          <span> {item?.rating} Reviews</span>
                         </p>
                       </div>
                       <div className="quantity-controls">
                         <button
                           id="decreaseQ"
-                          onClick={() => handleDecreaseQuantity(item.id)}
+                          onClick={() => handleDecreaseQuantity(item?.id)}
                         >
                           -
                         </button>
                         <input
                           type="text"
-                          value={quantities[item.id]}
+                          value={quantities[item?.id]}
                           readOnly
                         />
                         <button
                           id="increaseQ"
-                          onClick={() => handleIncreaseQuantity(item.id)}
+                          onClick={() => handleIncreaseQuantity(item?.id)}
                         >
                           +
                         </button>
                       </div>
                       <div className="calculated-price">
                         <p id="price-figure">
-                          ${item.price * quantities[item.id]}
+                          ${item?.price * quantities[item?.id]}
                         </p>
                         <div className="calculated-price-1">
                           <p id="figure">$259.98</p>
@@ -188,7 +192,7 @@ const Cart = () => {
                             <img src={plus} alt="" />{" "}
                             <input
                               type="text"
-                              value={quantities[item.id]}
+                              value={quantities[item?.id]}
                               readOnly
                             />{" "}
                             <span>Item</span>
@@ -206,12 +210,12 @@ const Cart = () => {
         </div>
         <div className="addtocart-items">
           <div className="cart-items">
-            {cart.length > 0 ? (
+            {cart?.length > 0 ? (
               cart.map((item, index) => (
                 <div key={index} className="summary-cart-item">
                   <div id="cart-summary">
                     <h4>Order Summary</h4>
-                    <p> <input type="text" value={quantities[item.id]} readOnly /> <span>Item</span></p>
+                    <p> <input type="text" value={quantities[item?.id]} readOnly /> <span>Item</span></p>
                   </div>
                   <div id="cart-delivery">
                     <h6>Delivery Charges</h6>
@@ -224,11 +228,11 @@ const Cart = () => {
                   </div>
                   <div id="cart-subtotal">
                     <h4>Subtotal</h4>
-                    <p id="cart-price-figure">${item.price * quantities[item.id]}</p>
+                    <p id="cart-price-figure">${item?.price * quantities[item?.id]}</p>
                   </div>
                   <div id="cart-total">
                     <h3>Total</h3>
-                    <p id="cart-price-figure-1">${item.price * quantities[item.id]}</p>
+                    <p id="cart-price-figure-1">${item?.price * quantities[item?.id]}</p>
                   </div>
                   <p id="cart-delivery-carges">Excluding Delivery Charges</p>
                   <button>Proceed to Checkout</button>
@@ -271,9 +275,9 @@ const Cart = () => {
       <div className="bandage">
         <h3>Bandage</h3>
         <div>
-          <img src={facebook} alt="" />
-          <img src={instagram} alt="" />
-          <img src={twitter} alt="" />
+          <img src={Facebook} alt="" />
+          <img src={Instagram} alt="" />
+          <img src={Twitter} alt="" />
         </div>
       </div>
 
@@ -357,10 +361,18 @@ const Cart = () => {
         </div>
       </footer>
 
-          
       
+
     </div>
+    
+
+    
+  
   )
+  
+  
+
 }
+
 
 export default Cart
